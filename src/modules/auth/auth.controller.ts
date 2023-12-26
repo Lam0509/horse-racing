@@ -1,26 +1,21 @@
 import { Body, Controller, Logger } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { LoginRequestDto } from './auth.dto';
-import { EvmService } from '../evm/evm.service';
 import { LoginResponseDto } from './auth.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 
-  constructor(private readonly evmService: EvmService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   async logIn(
     @Body() { address, signedMessage }: LoginRequestDto,
-  ): Promise<LoginResponseDto | any> {
+  ): Promise<LoginResponseDto> {
     try {
-      this.logger.log(`User have address ${address} log in ...`);
-      const result = await this.evmService.verifyMessage(
-        address,
-        signedMessage,
-      );
-      console.log(result);
+      return await this.authService.logIn(address, signedMessage);
     } catch (err) {
       this.logger.error(err);
     }

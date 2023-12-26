@@ -8,7 +8,7 @@ export class EvmService {
   private readonly signedMessage: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.signedMessage = this.configService.get('signedMessage');
+    this.signedMessage = this.configService.get<string>('signedMessage');
   }
 
   // Verify Message

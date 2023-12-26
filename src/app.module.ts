@@ -8,9 +8,9 @@ import { Configuration } from './config/configuration';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, load: [Configuration] }),
     AuthModule,
     UserModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [Configuration] }),
   ],
   controllers: [AppController],
   providers: [AppService],
